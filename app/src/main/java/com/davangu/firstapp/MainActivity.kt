@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -23,11 +25,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,11 +61,42 @@ class MainActivity : ComponentActivity() {
                         )
                         BoxBadge()
                         TopBarRow()
+                        //SuperImage()
+                        MyFirstTF()
                     }
                 }
             }
         }
     }
+}
+
+@Composable
+fun MyFirstTF() {
+    var password by rememberSaveable{ mutableStateOf("")}
+    Text(password.reversed())
+    TextField(
+        value = password,
+        onValueChange = { password = it },
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+fun SuperImage(){
+    val border = 5.dp
+    Image(
+        painter = painterResource(id = R.drawable.img),
+        contentDescription = "img",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .size(250.dp)
+            .border(
+                BorderStroke(border, Color.Yellow),
+                CircleShape
+            )
+            .padding(border)
+            .clip(CircleShape)
+    )
 }
 
 @Composable
@@ -104,7 +143,7 @@ fun TopBarRow() {
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Icon(
-            painterResource(R.drawable.ic_arrow_back),
+            painter = painterResource(R.drawable.ic_arrow_back),
             contentDescription = "Atrás")
         // Text ocupa el centro disponible, desplazando al
         // icono Search completamente a la parte derecha
